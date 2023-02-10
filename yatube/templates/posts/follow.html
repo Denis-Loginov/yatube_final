@@ -1,0 +1,19 @@
+{% extends 'base.html'%}
+{% block title %}
+  Посты любимых авторов
+{% endblock %}
+{% block content %} 
+  <h1>Посты любимых авторов</h1>
+  {% include 'posts/includes/switcher.html' %}
+  {% load cache %}
+  {% cache 20 index_page page.number %}
+    {% for post in page_obj %}
+      {% include 'includes/card_post.html' %}
+        {% if post.group %}   
+          <a href="{% url 'posts:group_list' post.group.slug %}">все записи группы</a>
+        {% endif %}
+      {% if not forloop.last %}<hr>{% endif %} 
+    {% endfor %}
+    {% include 'includes/paginator.html' %}
+  {% endcache %}
+{% endblock %}
