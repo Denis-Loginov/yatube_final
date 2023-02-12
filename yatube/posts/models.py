@@ -1,7 +1,6 @@
 from django.contrib.auth import get_user_model
 from django.db import models
 
-# from core.models import CreatedModel
 
 User = get_user_model()
 
@@ -16,6 +15,9 @@ class Group(models.Model):
 
     def __str__(self) -> str:
         return self.title[:25]
+
+    class Meta:
+        verbose_name_plural = 'Группы'
 
 
 class Post(models.Model):
@@ -48,6 +50,7 @@ class Post(models.Model):
     )
 
     class Meta:
+        verbose_name_plural = 'Посты'
         ordering = ['-pub_date']
 
     def __str__(self) -> str:
@@ -75,6 +78,7 @@ class Comment(models.Model):
     )
 
     class Meta:
+        verbose_name_plural = 'Комментарии'
         ordering = ['-created']
 
 
@@ -89,3 +93,8 @@ class Follow(models.Model):
         on_delete=models.CASCADE,
         related_name='following',
     )
+
+    class Meta:
+        verbose_name_plural = 'Подписки'
+        constraints = [models.UniqueConstraint(
+            fields=['user', 'author'], name='unique_follow')]
